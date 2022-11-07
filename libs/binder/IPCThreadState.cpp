@@ -137,9 +137,9 @@ static const void* printBinderTransactionData(TextOutput& out, const void* data)
     }
     out << " (cookie " << btd->cookie << ")" << endl
         << "code=" << TypeCode(btd->code) << ", flags=" << (void*)(uint64_t)btd->flags << endl
-        << "data=" << btd->data.ptr.buffer << " (" << (void*)btd->data_size
+        << "data=" << btd->data.ptr.buffer << " (" << btd->data_size
         << " bytes)" << endl
-        << "offsets=" << btd->data.ptr.offsets << " (" << (void*)btd->offsets_size
+        << "offsets=" << btd->data.ptr.offsets << " (" << btd->offsets_size
         << " bytes)";
     return btd+1;
 }
@@ -1004,7 +1004,7 @@ status_t IPCThreadState::talkWithDriver(bool doReceive)
         TextOutput::Bundle _b(alog);
         if (outAvail != 0) {
             alog << "Sending commands to driver: " << indent;
-            const void* cmds = (const void*)bwr.write_buffer;
+            const void* cmds = reinterpret_cast<void *>(bwr.write_buffer);
             const void* end = ((const uint8_t*)cmds)+bwr.write_size;
             alog << HexDump(cmds, bwr.write_size) << endl;
             while (cmds < end) cmds = printCommand(alog, cmds);

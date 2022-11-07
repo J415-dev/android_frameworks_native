@@ -2172,7 +2172,7 @@ void Parcel::print(TextOutput& to, uint32_t /*flags*/) const
         for (size_t i=0; i<N; i++) {
             const flat_binder_object* flat
                 = reinterpret_cast<const flat_binder_object*>(DATA+OBJS[i]);
-            to << endl << "Object #" << i << " @ " << (void*)OBJS[i] << ": "
+            to << endl << "Object #" << i << " @ " << OBJS[i] << ": "
                 << TypeCode(flat->hdr.type & 0x7f7f7f00)
                 << " = " << flat->binder;
         }
